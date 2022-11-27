@@ -21,3 +21,36 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+Table relacs.User {
+  id int PK
+  first_name varchar
+  surname_name varchar
+  email varchar
+  password varchar
+}
+
+
+
+Table relacs.Compound {
+  id int PK
+  id_user int
+  name varchar
+  molar_mass double
+}
+
+Table relacs.TandH {
+  id int PK
+  id_compound int
+  T double
+  H double
+}
+
+Table relacs.Measurement {
+  id int PK
+  id_tandh int
+}
+
+ref: relacs.User.id < relacs.Compound.id_user
+ref: relacs.Compound.id < relacs.TandH.id_compound
+ref: relacs.TandH.id < relacs.Measurement.id_tandh
