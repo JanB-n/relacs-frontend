@@ -1,8 +1,18 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import useLogout from '../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 function NavbarMenu() {
+
+  const logout = useLogout();
+  const navigate = useNavigate();
+  const signOut = async () => {
+    await logout();
+    navigate('/login')
+  }
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -12,6 +22,7 @@ function NavbarMenu() {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/charts">Charts</Nav.Link>
+            <Nav.Link href="/login" onClick={signOut}>Logout</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href="#deets">More deets</Nav.Link>

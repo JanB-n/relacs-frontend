@@ -1,27 +1,33 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom';
-import { MainLayout } from './components/Layouts';
-import Charts from './features/Charts/Charts';
+import { Route, Routes } from 'react-router-dom';
+import MainLayout from './components/MainLayout';
 import Home from './features/Home/Home'
-import Tree from './components/Tree/Tree'
-import Login from './components/Login/Login'
-import Register from './components/Register/Register'
-import RequireAuth from './components/RequireAuth/RequireAuth';
+import Charts from './features/Charts/Charts'
+import Login from './components/Login'
+import Register from './components/Register'
+import Missing from './features/Redirections/Missing';
+import Unauthorized from './features/Redirections/Unauthorized';
+import RequireAuth from './components/RequireAuth';
+import PersistentLogin from './components/PersistentLogin';
 
-export default function Routes() {
+
+export default function AllRoutes() {
   return (
-    <Switch>
-        <Register/>
-        <Login/>
-        <Route element={<RequireAuth/>}>
-          <MainLayout>
-              <Route exact path="/login" component = {Login}/>
-              <Route exact path="/register" component = {Register}/>
-              <Route exact path="/" component = {Home}/>
-              <Route exact path="/charts" component = {Charts}/>
-              <Route exact path="/tree" component = {Tree}/>
-          </MainLayout>
+    <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="unauthorized" element={<Unauthorized />} />
+        
+        <Route path="/" element={<MainLayout />}>
+          <Route element={<PersistentLogin />}>
+            <Route element={<RequireAuth />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/charts" element={<Charts />} />
+            </Route>
+          </Route>
+
+          <Route path="*" element={<Missing />} />
         </Route>
-    </Switch>
+    </Routes>
   )
 }
