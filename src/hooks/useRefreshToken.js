@@ -2,18 +2,19 @@ import axios from "../api/axios"
 import useAuth from './useAuth'
 
 const useRefreshToken = () => {
-    const { setAuth } = useAuth();
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
 
     const refresh = async () => {
-        console.log("This is local storage refresh" + localStorage.getItem("refresh"));
-        console.log(localStorage.getItem("refresh"));
+        console.log("useRefreshToken", auth?.token)
+        // console.log("This is local storage refresh" + localStorage.getItem("refresh"));
+        // console.log(localStorage.getItem("refresh"));
         //const response = await axios.post('/auth/refresh-token/', JSON.stringify({refresh: auth?.refresh}),
         //const response = await axios.post('/auth/refresh-token/', JSON.parse(localStorage.getItem("refresh")),
         const response = await axios.post('/auth/refresh-token/',
            
             {
-                'refresh': JSON.parse(localStorage.getItem("refresh"))
+                // 'refresh': JSON.parse(localStorage.getItem("refresh"))
+                'refresh': auth?.refresh
             }
         ,
         {

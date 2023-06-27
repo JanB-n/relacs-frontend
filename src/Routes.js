@@ -18,16 +18,16 @@ export default function AllRoutes() {
         <Route path="register" element={<Register />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         
-        <Route path="/" element={<MainLayout />}>
-          <Route element={<PersistentLogin />}>
+        <Route element={<PersistentLogin />}>
             <Route element={<RequireAuth />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/charts" element={<Charts />} />
+              <Route path="/" element={<MainLayout />}> 
+                <Route path="/" element={<Home />} />
+                <Route path="/charts" element={<Charts />} />
+              </Route>
             </Route>
-          </Route>
-
-          <Route path="*" element={<Missing />} />
+          
         </Route>
+        <Route path="*" element={<Missing />} />
     </Routes>
   )
 }

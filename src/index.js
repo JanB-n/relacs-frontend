@@ -10,12 +10,11 @@ import { AuthProvider } from './context/AuthProvider'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes/>
-      </AuthProvider>
-    </BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes/>
+        </AuthProvider>
+      </BrowserRouter>
   </React.StrictMode>
 );
 

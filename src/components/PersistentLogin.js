@@ -20,7 +20,6 @@ const PersistentLogin = () => {
                 setIsLoading(false);
             }
         }
-        //console.log(auth?.refresh);
         !auth?.token ? verifyRefreshToken() : setIsLoading(false);
     }, [])
   return (

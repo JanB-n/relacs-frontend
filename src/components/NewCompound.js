@@ -3,7 +3,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form  from 'react-bootstrap/Form';
 import axios from '../api/axios';
-import { useState } from 'react';
+import useAuth from '../hooks/useAuth';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+
 
 const NewCompound_URL="/newcompound/"
 
@@ -11,6 +13,9 @@ function NewCompound() {
   const [show, setShow] = useState(false);
   const [compoundName, setCompoundName] = useState('');
   const [molarMass, setMolarMass] = useState(0);
+  const { auth } = useAuth();
+  const { axiosPrivate }  = useAxiosPrivate()
+  
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -19,20 +24,21 @@ function NewCompound() {
     e.preventDefault();
 
     try{
-        const response = await axios.post(NewCompound_URL, JSON.stringify({compoundName: compoundName, molarMass: molarMass}), 
+        console.log(auth.username)
+        console.log()
+        
+        // const response = await axios.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}),
+        const response = await axiosPrivate.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}), 
         {
             headers: { 'Content-Type' : 'application/json'},
             //withCredentials: true
         }
         );
         console.log(JSON.stringify(response?.data));
+        setShow(false);
         
     } catch(err){
-        if (!err?.response) {
-            setErrorMessage('No Server Response');
-        }
-        setShow(false);
-        errorRef.current.focus();
+        console.log(err);
     }
     
 }

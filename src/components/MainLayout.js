@@ -55,10 +55,6 @@ const treeData = [
 function MainLayout() {
   const refresh = useRefreshToken();
 
-  const AddCompound = () => {
-
-  }
-
   return (
     <Container fluid>
       <Row>
@@ -70,10 +66,9 @@ function MainLayout() {
       <Row>
       <Col xs = {4} style = {{borderRight: '2px solid black'}}>
         <p>Compounds</p>
-        {/* <button onClick={AddCompound}>Add compound</button> */}
-        <NewCompound></NewCompound>
-        <LoadFromJson></LoadFromJson>
-        <SaveToJson></SaveToJson>
+        <NewCompound />
+        <LoadFromJson />
+        <SaveToJson />
         <Tree treeData={treeData} />
       </Col>
       <Col>
