@@ -14,7 +14,7 @@ function NewCompound() {
   const [compoundName, setCompoundName] = useState('');
   const [molarMass, setMolarMass] = useState(0);
   const { auth } = useAuth();
-  const { axiosPrivate }  = useAxiosPrivate()
+  const { axiosPrivate }  = useAxiosPrivate();
   
 
   const handleClose = () => setShow(false);
@@ -24,10 +24,7 @@ function NewCompound() {
     e.preventDefault();
 
     try{
-        console.log(auth.username)
-        console.log()
-        
-        // const response = await axios.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}),
+        //const response = await axios.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}),
         const response = await axiosPrivate.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}), 
         {
             headers: { 'Content-Type' : 'application/json'},
@@ -55,9 +52,9 @@ function NewCompound() {
         </Modal.Header>
         <Modal.Body>
             <Form>
-                <Form.Control type="text" placeholder="Compound name" onChange={(e) => setCompoundName(e.target.value)} value={compoundName} required />
+                <Form.Control type="text" placeholder="Compound name" onChange={(e) => setCompoundName(e.target.value)} required />
                 <br />
-                <Form.Control type="number" step="0.01" placeholder="Molar mass [g/mol]" onChange={(e) => setMolarMass(e.target.value)} value={molarMass} required />
+                <Form.Control type="number" step="0.01" placeholder="Molar mass [g/mol]" onChange={(e) => setMolarMass(e.target.value)} required />
                 <br />
                 <Button variant="primary" type="submit" onClick={handleSubmit}>
                     Create

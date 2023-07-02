@@ -1,7 +1,7 @@
 //import TreeNode from './TreeNode'
 import {useState} from 'react'
 
-export default function Tree({ treeData }) {    
+export default function Compounds({ treeData }) {    
 
     
 
@@ -33,7 +33,7 @@ function TreeNode({ node }) {
           <span>{label}</span>
         </div>
         <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
-          {showChildren && <Tree treeData={children} />}
+          {showChildren && <Compounds treeData={children} />}
         </ul>
       </>
     );

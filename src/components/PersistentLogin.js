@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 const PersistentLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const { auth } = useAuth();
+    const { auth, persist } = useAuth();
 
     useEffect( () => {
         const verifyRefreshToken = async () => {
@@ -20,13 +20,16 @@ const PersistentLogin = () => {
                 setIsLoading(false);
             }
         }
-        !auth?.token ? verifyRefreshToken() : setIsLoading(false);
+        !auth?.token && persist ? verifyRefreshToken() : setIsLoading(false);
     }, [])
   return (
     <>
-        {isLoading
-            ? <p>Loading...</p>
-            : <Outlet />
+        {!persist ?
+            <Outlet /> :
+                isLoading
+                    ? <p>Loading...</p>
+                    : <Outlet />
+            
         }
     </>
   )

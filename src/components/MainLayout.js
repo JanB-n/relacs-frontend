@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import Header from "./Header";
-import Tree from "./Tree";
+import Compounds from "./Compounds";
 import NewCompound from "./NewCompound";
 import LoadFromJson from "./LoadFromJson";
 import SaveToJson from "./SaveToJson";
@@ -69,7 +69,7 @@ function MainLayout() {
         <NewCompound />
         <LoadFromJson />
         <SaveToJson />
-        <Tree treeData={treeData} />
+        <Compounds treeData={treeData} />
       </Col>
       <Col>
         <Row>
