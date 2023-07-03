@@ -7,7 +7,7 @@ import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 
-const NewCompound_URL="/newcompound/"
+const NewCompound_URL="/compound/"
 
 function NewCompound() {
   const [show, setShow] = useState(false);

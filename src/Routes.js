@@ -23,6 +23,7 @@ export default function AllRoutes() {
               <Route path="/" element={<MainLayout />}> 
                 <Route path="/" element={<Home />} />
                 <Route path="/charts" element={<Charts />} />
+                
               </Route>
             </Route>
           
