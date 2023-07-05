@@ -10,47 +10,6 @@ import axios from "../api/axios";
 import useRefreshToken from "../hooks/useRefreshToken";
 
 const LayoutContext = React.createContext(null);
-const treeData = [
-  {
-    key: "0",
-    label: "Documents",
-    children: [
-      {
-        key: "0-0",
-        label: "Document 1-1",
-        children: [
-          {
-            key: "0-1-1",
-            label: "Document-0-1.doc",
-          },
-          {
-            key: "0-1-2",
-            label: "Document-0-2.doc",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: "1",
-    label: "Desktop",
-    children: [
-      {
-        key: "1-0",
-        label: "document1.doc",
-      },
-      {
-        key: "0-0",
-        label: "documennt-2.doc",
-      },
-    ],
-  },
-  {
-    key: "2",
-    label: "Downloads",
-    children: [],
-  },
-];
 
 function MainLayout() {
   const refresh = useRefreshToken();
@@ -60,16 +19,17 @@ function MainLayout() {
       <Row>
         <Col xs={12}>
           <Header />
-          <button onClick={() => refresh()}> Refresh </button>
+          {/* <button onClick={() => refresh()}> Refresh </button> */}
         </Col>
       </Row>
       <Row>
       <Col xs = {4} style = {{borderRight: '2px solid black'}}>
-        <p>Compounds</p>
+        
         <NewCompound />
-        <LoadFromJson />
-        <SaveToJson />
-        <Compounds treeData={treeData} />
+        {/* <LoadFromJson />
+        <SaveToJson /> */}
+        <h2>Compounds</h2>
+        <Compounds />
       </Col>
       <Col>
         <Row>

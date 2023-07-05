@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import Compound from './Compound';
 
 const Compounds_URL="/compound/"
 
-export default function Compounds({ treeData }) {    
+export default function Compounds() {    
 
     const { axiosPrivate } = useAxiosPrivate();
     const [compounds, setCompounds] = useState([]);
@@ -27,36 +28,14 @@ export default function Compounds({ treeData }) {
     return (
     <>
       <ul>
-        {/* {treeData.map((node) => (
-          <TreeNode node={node} key={node.key} />
-        ))} */}
-      </ul>
-      <ul>
-        {compounds?.map(d =>(<li key={d.pk}>{d.fields.name}</li>))}
+        {compounds?.map(comp =>(
+          <>
+            {/* <ul key={comp.pk}>{comp.fields.name}</ul> */}
+            <Compound compData = {comp}/>
+          </>
+        ))}
       </ul>
     </> 
     );
   }
 
-// function TreeNode({ node }) {
-//     const { children, label } = node;
-  
-//     const [showChildren, setShowChildren] = useState(false);
-  
-//     const handleClick = () => {
-//       setShowChildren(!showChildren);
-//     };
-
-    
-//     return (
-//       <>
-        
-//         <div onClick={handleClick} style={{ marginBottom: "10px" }}>
-//           <span>{label}</span>
-//         </div>
-//         <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
-//           {showChildren && <Compounds treeData={children} />}
-//         </ul>
-//       </>
-//     );
-//   }
