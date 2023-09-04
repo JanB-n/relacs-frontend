@@ -11,7 +11,7 @@ import useRefreshToken from "../hooks/useRefreshToken";
 
 const LayoutContext = React.createContext(null);
 
-function MainLayout() {
+function MainLayout({children}) {
   const refresh = useRefreshToken();
 
   return (
@@ -33,7 +33,8 @@ function MainLayout() {
       </Col>
       <Col>
         <Row>
-          <Outlet />
+          {/* <Outlet /> */}
+          {children}
         </Row>
       </Col>
       </Row>

@@ -2,8 +2,9 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
+import Login from "./Login";
 
-const PersistentLogin = () => {
+const PersistentLogin = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const { auth, persist } = useAuth();
@@ -24,13 +25,21 @@ const PersistentLogin = () => {
     }, [])
   return (
     <>
-        {!persist ?
+        {/* {!persist ?
             <Outlet /> :
                 isLoading
                     ? <p>Loading...</p>
                     : <Outlet />
             
+        } */}
+        {!persist ?
+            children :
+                isLoading
+                    ? <p>Loading...</p>
+                    : children
         }
+            
+        
     </>
   )
 }

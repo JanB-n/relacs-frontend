@@ -1,13 +1,27 @@
 import {useEffect, useState} from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
-const Compounds_URL="/compound/"
+const Compounds_URL="/compounds/"
 
 export default function Compound(compData) {
     const [showCompound, setShowCompound] = useState(false);
-    console.log(compData);
+    
+    useEffect(() => {
+        const state = localStorage.getItem("compound" + compData.compData.pk);
+        if (state === 'true')
+        {
+            setShowCompound(true);  
+        }
+        else
+        {
+            setShowCompound(false);  
+        }
+        console.log(compData)
+    }, [])
+    
     const handleClickCompound = () => {
-      setShowCompound(!showCompound);
+        localStorage.setItem("compound" + compData.compData.pk, !showCompound)
+      setShowCompound(!showCompound); 
     };
     const handleSpanClick = () => {
 
@@ -16,10 +30,11 @@ export default function Compound(compData) {
     return (
       <>
         <div onClick={handleClickCompound} style={{ marginBottom: "10px" }}>
-          <span>{compData.compData.fields.name}</span>
+          <span>{compData?.compData?.name}</span>
         </div>
         <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" } }>
-          {showCompound ? (
+          {
+          showCompound && (
             <div>
               <span onClick={handleSpanClick}>Mesurements</span>
               <button>Load</button>
@@ -30,7 +45,8 @@ export default function Compound(compData) {
               <span>Frequency Fits Double</span>
               <br/>
             </div>
-          ) : <div />}
+          ) 
+          }
         </ul>
       </>
     );
