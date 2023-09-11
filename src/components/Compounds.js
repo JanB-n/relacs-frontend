@@ -13,6 +13,9 @@ export default function Compounds() {
       try{
           const response = axiosPrivate.get(Compounds_URL).then(res => {
             var data = res.data;
+            console.log(data[0].name)
+            console.log(data[0]['_id']['$oid'])
+            console.log('Tu sa dane ' + data[0]['_id']['$oid'])
             setCompounds(data);
           });
           

@@ -9,6 +9,7 @@ import Missing from './features/Redirections/Missing';
 import Unauthorized from './features/Redirections/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import PersistentLogin from './components/PersistentLogin';
+import Compounds from './components/Compounds';
 
 
 export default function AllRoutes() {
@@ -23,6 +24,7 @@ export default function AllRoutes() {
               {/* <Route element={<MainLayout />}>  */}
                 <Route path="/" element={<Home />} />
                 <Route path="/charts" element={<Charts />} />
+                <Route path="/compounds" element={<Compounds />} />
                 <Route path=":id/Measurements" element={<Charts  />} />
               
               {/* </Route> */}

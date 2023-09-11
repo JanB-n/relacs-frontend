@@ -21,6 +21,7 @@ function NavbarMenu() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/Compounds">Compounds</Nav.Link>
             <Nav.Link href="/charts">Charts</Nav.Link>
             <Nav.Link href="/login" onClick={signOut}>Logout</Nav.Link>
           </Nav>
