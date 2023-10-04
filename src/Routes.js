@@ -10,6 +10,7 @@ import Unauthorized from './features/Redirections/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import PersistentLogin from './components/PersistentLogin';
 import Compounds from './components/Compounds';
+import Compound from './components/Compound';
 
 
 export default function AllRoutes() {
@@ -26,6 +27,7 @@ export default function AllRoutes() {
                 <Route path="/charts" element={<Charts />} />
                 <Route path="/compounds" element={<Compounds />} />
                 <Route path=":id/Measurements" element={<Charts  />} />
+                <Route path="/compounds/:id" element={<Compound />} />
               
               {/* </Route> */}
             </Route>

@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import useLogout from '../hooks/useLogout';
 import { useNavigate } from 'react-router-dom';
+import NewCompound from './NewCompound';
 
 function NavbarMenu() {
 
@@ -23,6 +24,7 @@ function NavbarMenu() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/Compounds">Compounds</Nav.Link>
             <Nav.Link href="/charts">Charts</Nav.Link>
+            <NewCompound />
             <Nav.Link href="/login" onClick={signOut}>Logout</Nav.Link>
           </Nav>
           <Nav>

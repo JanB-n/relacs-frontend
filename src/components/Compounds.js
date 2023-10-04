@@ -1,8 +1,10 @@
 import {useEffect, useState} from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Compound from './Compound';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
-const Compounds_URL="/compound/"
+const Compounds_URL="/compounds/"
 
 export default function Compounds() {    
 
@@ -34,7 +36,10 @@ export default function Compounds() {
         {compounds?.map(comp =>(
           <>
             {/* <ul key={comp.pk}>{comp.fields.name}</ul> */}
-            <Compound compData = {comp}/>
+            {/* <Compound compData = {comp}/> */}
+            <Link to={'/compounds/' + comp['_id']['$oid'] + '/'}>
+              <Button>{comp.name}</Button>
+            </Link>
           </>
         ))}
       </ul>
