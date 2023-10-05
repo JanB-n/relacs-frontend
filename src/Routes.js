@@ -11,6 +11,7 @@ import RequireAuth from './components/RequireAuth';
 import PersistentLogin from './components/PersistentLogin';
 import Compounds from './components/Compounds';
 import Compound from './components/Compound';
+import Measurement from './components/Measurement.js';
 
 
 export default function AllRoutes() {
@@ -28,7 +29,7 @@ export default function AllRoutes() {
                 <Route path="/compounds" element={<Compounds />} />
                 <Route path=":id/Measurements" element={<Charts  />} />
                 <Route path="/compounds/:id" element={<Compound />} />
-              
+                <Route path="/compounds/:c_id/:m_id" element={<Measurement />} />
               {/* </Route> */}
             </Route>
           

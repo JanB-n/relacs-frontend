@@ -9,12 +9,6 @@ import { Link } from 'react-router-dom';
 const MEASUREMENTS_URL = "/measurements/"
 
 
-const rows = [
-  {id: 'ala'},
-  {id: 'ma'},
-  {id: 'kota'}
-]
-
 export default function Measurements({id}) {
 
   const columns = [
@@ -26,7 +20,7 @@ export default function Measurements({id}) {
        //return  (<a href="${params.getValue('id')}">${params.getValue("id")}</a>);
        return  (
         <>
-        <Link to={`/compounds/` + id +'/' + params.id?.replaceAll(':', '_').replaceAll('.', '-')}>
+        <Link to={`/compounds/` + id +'/' + params.id?.replaceAll(':', '__').replaceAll('.', '-')}>
             <Button>{params.id}</Button>
         </Link>
         </>
@@ -83,18 +77,18 @@ export default function Measurements({id}) {
     <>
     <Button onClick={deleteMeasurements}> Delete measurements </Button>
     <Button onClick={getMeasurements}> Refresh </Button>
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 700, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick
       />
