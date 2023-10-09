@@ -11,7 +11,7 @@ import RequireAuth from './components/RequireAuth';
 import PersistentLogin from './components/PersistentLogin';
 import Compounds from './components/Compounds';
 import Compound from './components/Compound';
-import Measurement from './components/Measurement.js';
+import Measurement from './components/MeasurementOld.js';
 
 
 export default function AllRoutes() {
