@@ -78,7 +78,7 @@ export default function Measurement() {
               }
               setDataChiPrime(new_data);
 
-              new_data = [{id: 7, data: []}]
+              new_data = [{id: 2, data: []}]
               for(key in m['ChiBis'])
               {
                 r = {x: m['FrequencyLog'][key], y: m['ChiBisMol'][key] * multiplier}
@@ -117,7 +117,6 @@ export default function Measurement() {
             blendMode="normal"
             colors={{ scheme: 'category10' }}
             useMesh={false}
-            // nodeId={}
             axisTop={null}
             axisRight={null}
             axisBottom={{
@@ -173,30 +172,6 @@ export default function Measurement() {
                     legendPosition: 'middle',
                     legendOffset: -60
                 }}
-                // legends={[
-                //     {
-                //         anchor: 'bottom-right',
-                //         direction: 'column',
-                //         justify: false,
-                //         translateX: 130,
-                //         translateY: 0,
-                //         itemWidth: 100,
-                //         itemHeight: 12,
-                //         itemsSpacing: 5,
-                //         itemDirection: 'left-to-right',
-                //         symbolSize: 12,
-                //         symbolShape: 'circle',
-                //         effects: [
-                //             {
-                //                 on: 'hover',
-                //                 style: {
-                //                     itemOpacity: 1
-                //                 }
-                //             },
-                //         ]
-                //     }
-                
-                // ]}
                 onClick={handleClick}
             />
       </ResponsiveContainer>
@@ -232,30 +207,6 @@ export default function Measurement() {
                     legendPosition: 'middle',
                     legendOffset: -60
                 }}
-                // legends={[
-                //     {
-                //         anchor: 'bottom-right',
-                //         direction: 'column',
-                //         justify: false,
-                //         translateX: 130,
-                //         translateY: 0,
-                //         itemWidth: 100,
-                //         itemHeight: 12,
-                //         itemsSpacing: 5,
-                //         itemDirection: 'left-to-right',
-                //         symbolSize: 12,
-                //         symbolShape: 'circle',
-                //         effects: [
-                //             {
-                //                 on: 'hover',
-                //                 style: {
-                //                     itemOpacity: 1
-                //                 }
-                //             },
-                //         ]
-                //     }
-                
-                // ]}
                 onClick={handleClick}
             />
       </ResponsiveContainer>
