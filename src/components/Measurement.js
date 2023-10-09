@@ -69,7 +69,7 @@ export default function Measurement() {
       if(Object.keys(json_data).length !== 0)
             {
               const m = json_data;
-              var new_data = [{id: 1, data: []}]
+              var new_data = [{id: 1, data: []}, {id: 4, data: []}]
               for(var key in m['ChiPrime'])
               {
                 var r = {x: m['FrequencyLog'][key], y: m['ChiPrimeMol'][key] * multiplier}
@@ -78,7 +78,7 @@ export default function Measurement() {
               }
               setDataChiPrime(new_data);
 
-              new_data = [{id: 2, data: []}]
+              new_data = [{id: 2, data: []}, {id: 5, data: []}]
               for(key in m['ChiBis'])
               {
                 r = {x: m['FrequencyLog'][key], y: m['ChiBisMol'][key] * multiplier}
@@ -86,7 +86,7 @@ export default function Measurement() {
               }
               setDataChiBis(new_data);
 
-              new_data = [{id: 10, data: []}]
+              new_data = [{id: 3, data: []}, {id: 6, data: []}]
               for(key in m['ChiPrime'])
               {
                 r = {x: m['ChiPrimeMol'][key] * multiplier, y: m['ChiBisMol'][key] * multiplier}
@@ -95,19 +95,115 @@ export default function Measurement() {
               setDataColeCole(new_data);
             }
     }
-    const handleClick = (point) => {
+    
+    const findIndexOfElement = (element, array) => {
+      for(var i = 0; i < array.length; ++i){
+        if(array[i]['x'] == element)
+        {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    const handleChartClick = (point) => {
         console.log(point);
+        var newChiPrime = [...dataChiPrime];
+        var newChiBis = [...dataChiBis];
+        var newColeCole = [...dataColeCole];
+        var arr_rm;
+        var arr_add;
+        if(point['serieId'] <= 3)
+        {
+          arr_rm = 0;
+          arr_add = 1;
+        }
+        else
+        {
+          arr_rm = 1;
+          arr_add = 0;
+        }
+          var frequency;
+          var chiPrime;
+          var chiBis;
+          if(point['serieId'] == 1 || point['serieId'] == 4)
+          {
+            frequency = point['xValue'];
+            chiPrime = point['yValue'];
+            for(var i of newChiBis[arr_rm]['data'])
+            {
+              if(i['x'] == frequency)
+              {
+                chiBis = i['y'];  
+              }
+            }
+            
+          } 
+          if(point['serieId'] == 2 || point['serieId'] == 5)
+          {
+            frequency = point['xValue'];
+            chiBis = point['yValue'];
+            for(var i of newChiPrime[arr_rm]['data'])
+            {
+              if(i['x'] == frequency)
+              {
+                chiPrime = i['y'];    
+              }
+            }
+          } 
+          if(point['serieId'] == 3 || point['serieId'] == 6)
+          {
+            chiPrime = point['xValue'];
+            chiBis = point['yValue'];
+            for(var i of newChiPrime[arr_rm]['data'])
+            {
+              if(i['y'] == chiPrime)
+              {
+                frequency = i['x'];    
+              }
+            }
+          } 
+          newChiPrime[arr_add]['data'].push({x: frequency, y: chiPrime});
+          newChiBis[arr_add]['data'].push({x: frequency, y: chiBis});
+          newColeCole[arr_add]['data'].push({x: chiPrime, y: chiBis})
+          const index_chiPrime = findIndexOfElement(frequency, newChiBis[arr_rm]['data']);
+          const index_chiBis = findIndexOfElement(frequency, newChiBis[arr_rm]['data']);
+          const index_coleCole = findIndexOfElement(frequency, newChiBis[arr_rm]['data']);
+          if(index_chiPrime > -1)
+          {
+            newChiPrime[arr_rm]['data'].splice(index_chiPrime, 1);
+          }
+          if(index_chiBis > -1)
+          {
+            newChiBis[arr_rm]['data'].splice(index_chiPrime, 1);
+          }
+          if(index_coleCole > -1)
+          {
+            newColeCole[arr_rm]['data'].splice(index_chiPrime, 1);
+          }
+          setDataChiPrime(newChiPrime);
+          setDataChiBis(newChiBis);
+          setDataColeCole(newColeCole); 
+          console.log(dataChiPrime); 
     }
     useEffect(() => {
       getMeasurement();
     }, [])
 
+    useEffect(() => {
+      // getMeasurement();
+    }, [dataChiPrime])
+
+
     return (
     <>
       <h1>{measurement?.name}</h1>
+      <p>{JSON.stringify(dataChiPrime)}</p>
+      <p>{dataChiPrime[0]['data'].length}</p>
       <ResponsiveContainer width="33%" height={400}>
         <ResponsiveScatterPlot
             data={dataChiPrime}
+            animate={false}
             borderColor="#000000"
             margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
             xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
@@ -137,16 +233,17 @@ export default function Measurement() {
                 legendPosition: 'middle',
                 legendOffset: -60
             }}
-            onClick={handleClick}
+            onClick={handleChartClick}
         />
       </ResponsiveContainer>
       <ResponsiveContainer width="33%" height={400}>
         <ResponsiveScatterPlot
                 data={dataChiBis}
+                animate={false}
                 margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-                xScale={{ type: 'linear', min: 0, max: 'auto' }}
+                xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
                 xFormat=">-.2f"
-                yScale={{ type: 'linear', min: 0, max: 'auto' }}
+                yScale={{ type: 'linear', min: 'auto', max: 'auto' }}
                 yFormat=">-.2f"
                 blendMode="normal"
                 colors={{ scheme: 'category10' }}
@@ -172,16 +269,17 @@ export default function Measurement() {
                     legendPosition: 'middle',
                     legendOffset: -60
                 }}
-                onClick={handleClick}
+                onClick={handleChartClick}
             />
       </ResponsiveContainer>
       <ResponsiveContainer width="33%" height={400}>
         <ResponsiveScatterPlot
                 data={dataColeCole}
+                animate={false}
                 margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-                xScale={{ type: 'linear', min: 0, max: 'auto' }}
+                xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
                 xFormat=">-.2f"
-                yScale={{ type: 'linear', min: 0, max: 'auto' }}
+                yScale={{ type: 'linear', min: 'auto', max: 'auto' }}
                 yFormat=">-.2f"
                 blendMode="normal"
                 colors={{ scheme: 'category10' }}
@@ -207,7 +305,7 @@ export default function Measurement() {
                     legendPosition: 'middle',
                     legendOffset: -60
                 }}
-                onClick={handleClick}
+                onClick={handleChartClick}
             />
       </ResponsiveContainer>
       <Box sx={{ height: 400, width: '80%' }}>
