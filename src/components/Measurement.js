@@ -24,16 +24,17 @@ export default function Measurement() {
     const { axiosPrivate } = useAxiosPrivate();
 
     const columns = [
-      { field: "temperature", headerName: "Temperature", editable: false },
-      { field: "magneticfield", headerName: "MagneticField", editable: false },
-      { field: "chiprime", headerName: "ChiPrime",  editable: false },
-      { field: "chibis", headerName: "ChiBis",  editable: false },
-      { field: "frequency", headerName: "Frequency",  editable: false },
-      { field: "chiprimemol", headerName: "ChiPrimeMol",  editable: false },
-      { field: "chibismol", headerName: "ChiBisMol",  editable: false },
-      { field: "omega", headerName: "Omega",  editable: false },
-      { field: "omegalog", headerName: "OmegaLog",  editable: false },
-      { field: "frequencylog", headerName: "FrequencyLog",  editable: false },
+      { field: "temperature", headerName: "Temperature",width: 120, editable: false },
+      { field: "magneticfield", headerName: "MagneticField",width: 120, editable: false },
+      { field: "chiprime", headerName: "ChiPrime", width: 120, editable: false },
+      { field: "chibis", headerName: "ChiBis", width: 120, editable: false },
+      { field: "frequency", headerName: "Frequency", width: 120, editable: false },
+      { field: "chiprimemol", headerName: "ChiPrimeMol", width: 120, editable: false },
+      { field: "chibismol", headerName: "ChiBisMol", width: 120, editable: false },
+      { field: "omega", headerName: "Omega", width: 120, editable: false },
+      { field: "omegalog", headerName: "OmegaLog", width: 120, editable: false },
+      { field: "frequencylog", headerName: "FrequencyLog", width: 120, editable: false },
+      // { field: "hidden", headerName: "isHidden?",  editable: false },
       
     ]
 
@@ -73,7 +74,6 @@ export default function Measurement() {
               for(var key in m['ChiPrime'])
               {
                 var r = {x: m['FrequencyLog'][key], y: m['ChiPrimeMol'][key] * multiplier}
-                console.log(new_data[0]['data']);
                 new_data[0]['data'].push(r);
               }
               setDataChiPrime(new_data);
@@ -106,8 +106,53 @@ export default function Measurement() {
       return -1;
     }
 
+    const deleteMeasurements = (e) => {
+      var newChiPrime = [...dataChiPrime];
+      const dataToDitch = newChiPrime[1]['data'];
+      var newDf = JSON.parse(measurement.df);
+      var indexesToRemove = []
+      for(var dmeas of dataToDitch)
+      {
+        for(const [key , value] of Object.entries(newDf['Frequency']))
+        {
+          if(dmeas['x'] == newDf['FrequencyLog'][key])
+          {
+            
+            indexesToRemove.push(key);
+          }
+        }
+      }
+      for(var index of indexesToRemove)
+      {
+        delete newDf['Temperature'][index];
+        delete newDf['MagneticField'][index];
+        delete newDf['ChiPrime'][index];
+        delete newDf['ChiBis'][index];
+        delete newDf['Frequency'][index];
+        delete newDf['ChiPrimeMol'][index];
+        delete newDf['ChiBisMol'][index];
+        delete newDf['Omega'][index];
+        delete newDf['OmegaLog'][index];
+        delete newDf['FrequencyLog'][index];
+        delete newDf['Hidden'][index];
+      }
+      newDf = JSON.stringify(newDf);
+      try{
+        const response = axiosPrivate.put(MEASUREMENT_URL, { c_id: c_id, m_id: measurement?.name, newDf: newDf }, 
+          {
+            headers: { 'Content-Type' : 'application/json' }
+            
+            //withCredentials: true
+          } ).then(res => {
+            getMeasurement();
+
+        });
+      } catch(err){
+
+      }
+    }
+
     const handleChartClick = (point) => {
-        console.log(point);
         var newChiPrime = [...dataChiPrime];
         var newChiBis = [...dataChiBis];
         var newColeCole = [...dataColeCole];
@@ -184,7 +229,6 @@ export default function Measurement() {
           setDataChiPrime(newChiPrime);
           setDataChiBis(newChiBis);
           setDataColeCole(newColeCole); 
-          console.log(dataChiPrime); 
     }
     useEffect(() => {
       getMeasurement();
@@ -198,7 +242,8 @@ export default function Measurement() {
     return (
     <>
       <h1>{measurement?.name}</h1>
-      <p>{JSON.stringify(dataChiPrime)}</p>
+      {/* <p>{JSON.stringify(dataChiPrime)}</p> */}
+      <p>{measurement?.df}</p>
       <p>{dataChiPrime[0]['data'].length}</p>
       <ResponsiveContainer width="33%" height={400}>
         <ResponsiveScatterPlot
@@ -308,7 +353,7 @@ export default function Measurement() {
                 onClick={handleChartClick}
             />
       </ResponsiveContainer>
-      <Box sx={{ height: 400, width: '80%' }}>
+      <Box sx={{ height: 400, width: '78%', marginLeft:2 }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -321,12 +366,12 @@ export default function Measurement() {
             },
           }}
           pageSizeOptions={[10]}
-          checkboxSelection
+          checkboxSelection={false}
           disableRowSelectionOnClick
         />
     </Box>
     
-    <Button>Delete selected measurements</Button>
+    <Button onClick={deleteMeasurements}>Delete selected measurements</Button>
     
     </>
     );
