@@ -32,6 +32,9 @@ jobs:
     - name: Zip artifact for deployment
       run: cd build/ && zip ../${{ env.AZURE_WEBAPP_NAME }} ./* -r
 
+    - name: show
+      run: ls
+
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
