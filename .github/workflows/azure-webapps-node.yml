@@ -30,13 +30,13 @@ jobs:
         CI=false npm run build --if-present
         
     - name: Zip artifact for deployment
-      run: cd build/ && zip ../${{ env.AZURE_WEBAPP_PACKAGE_NAME }} ./* -r
+      run: cd build/ && zip ../${{ env.AZURE_WEBAPP_NAME }} ./* -r
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: release
-        path: ${{ env.AZURE_WEBAPP_PACKAGE_NAME }}
+        path: ${{ env.AZURE_WEBAPP_NAME }}
 
   deploy:
     permissions:
