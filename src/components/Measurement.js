@@ -242,9 +242,9 @@ export default function Measurement() {
     return (
     <>
       <h1>{measurement?.name}</h1>
-      {/* <p>{JSON.stringify(dataChiPrime)}</p> */}
+      {/* <p>{JSON.stringify(dataChiPrime)}</p>
       <p>{measurement?.df}</p>
-      <p>{dataChiPrime[0]['data'].length}</p>
+      <p>{dataChiPrime[0]['data'].length}</p> */}
       <ResponsiveContainer width="33%" height={400}>
         <ResponsiveScatterPlot
             data={dataChiPrime}
@@ -371,7 +371,7 @@ export default function Measurement() {
         />
     </Box>
     
-    <Button onClick={deleteMeasurements}>Delete selected measurements</Button>
+    <Button onClick={deleteMeasurements}>Delete selected points</Button>
     
     </>
     );

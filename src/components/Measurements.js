@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 const MEASUREMENTS_URL = "/measurements/"
-
+const MEASUREMENT_URL = "/measurement/"
 
 export default function Measurements({id}) {
 
@@ -28,22 +28,37 @@ export default function Measurements({id}) {
       }
     },
   ];
+  const [selectedRows, setSelectedRows] = useState([]);
   const [rows, setRows] = useState([]);
   const [df, setDf] = useState()
   const { axiosPrivate } = useAxiosPrivate();
   const [measurements, setMeasurements] = useState();
 
-  const deleteMeasurements = (e) => {
-    try{
-      const response = axiosPrivate.delete(MEASUREMENTS_URL,  { params: { id: id }}).then(res => {
-        getMeasurements();
+  // const deleteMeasurements = (e) => {
+  //   try{
+  //     const response = axiosPrivate.delete(MEASUREMENTS_URL,  { params: { id: id }}).then(res => {
+  //       getMeasurements();
 
-      });
+  //     });
       
-  } catch(err){
-      console.log(err);
+  //   } catch(err){
+  //       console.log(err);
+  //   }
+  // }
+  const handleDelete = (e) => {
+    try{
+      for(var measurement_name of selectedRows)
+      {
+        const response = axiosPrivate.delete(MEASUREMENT_URL, { params: { measurement_name: measurement_name, comp_id: id }}).then(res => {
+          getMeasurements();
+        });
+      }
+      
+    } catch(err){
+        console.log(err);
+    }
   }
-  }
+
   const getMeasurements = (e) => {
     try{
         const response = axiosPrivate.get(MEASUREMENTS_URL, { params: { id: id }} ).then(res => {
@@ -71,11 +86,14 @@ export default function Measurements({id}) {
     getMeasurements();
   }, [])
 
+  const handleChecked = (ids) => {
+    setSelectedRows(ids);
+  }
   
 
   return (
     <>
-    <Button onClick={deleteMeasurements}> Delete measurements </Button>
+    <Button onClick={handleDelete}> Delete selected measurement groups </Button>
     <Button onClick={getMeasurements}> Refresh </Button>
     <Box sx={{ height: 700, width: '100%' }}>
       <DataGrid
@@ -91,6 +109,7 @@ export default function Measurements({id}) {
         pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick
+        onRowSelectionModelChange={handleChecked}
       />
     </Box>
     {/* <div>{measurements}</div> */}

@@ -11,8 +11,8 @@ const NewCompound_URL="/compounds/"
 
 function NewCompound() {
   const [show, setShow] = useState(false);
-  const [compoundName, setCompoundName] = useState('');
-  const [molarMass, setMolarMass] = useState(0);
+  const [compoundName, setCompoundName] = useState();
+  const [molarMass, setMolarMass] = useState();
   const { auth } = useAuth();
   const { axiosPrivate }  = useAxiosPrivate();
   
@@ -21,7 +21,7 @@ function NewCompound() {
   const handleShow = () => setShow(true);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     try{
         //const response = await axios.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}),
@@ -32,7 +32,7 @@ function NewCompound() {
         }
         );
         console.log(JSON.stringify(response?.data));
-        setShow(false);
+        
         
     } catch(err){
         console.log(err);

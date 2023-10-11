@@ -17,14 +17,14 @@ function NavbarMenu() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">Relacs</Navbar.Brand>
+        <Navbar.Brand href="/">Relacs Web</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
+            {/* <Nav.Link href="/">Home</Nav.Link> */}
             <Nav.Link href="/Compounds">Compounds</Nav.Link>
-            <Nav.Link href="/charts">Charts</Nav.Link>
-            <NewCompound />
+            {/* <Nav.Link href="/charts">Charts</Nav.Link> */}
+            {/* <NewCompound /> */}
             <Nav.Link href="/login" onClick={signOut}>Logout</Nav.Link>
           </Nav>
           {/* <Nav>

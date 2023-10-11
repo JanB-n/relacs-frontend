@@ -78,7 +78,7 @@ export default function AddMeasurements({id}) {
                         <Form.Control type="number" step="0.01" placeholder="Probe mass [g]" onChange={(e) => setProbeMass(e.target.value)} required />
                         <br />
                         {/* <div>{file && `${file.name} - ${file.type}`}</div> */}
-                        <div>{file && `${file.name}`}</div>
+                        {/* <div>{file && `${file.name}`}</div> */}
                         <br/>
                         <Button variant="primary" type="submit" onClick={addMeasurements}>
                             Upload
