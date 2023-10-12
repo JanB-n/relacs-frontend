@@ -45,15 +45,18 @@ export default function AddMeasurements({id}) {
 
     const addMeasurements = (e) => {
         try{
+            console.clear();
             console.log(id);
-         
-            const response = axiosPrivate.post(Compound_URL, {measurements: measurements, comp_id: id, probe_mass: probeMass, file_name: file?.name}, 
+            console.log("przed wyslaniem", axiosPrivate.name);
+            const response = axiosPrivate.post(Compound_URL, JSON.stringify({measurements: measurements, comp_id: id, probe_mass: probeMass, file_name: file?.name}), 
             {
                 headers: { 'Content-Type' : 'application/json' }
                 
                 //withCredentials: true
-            } )
-          
+            } ).then(res => {
+                console.log("resresres", res);
+            })
+            console.log("response", response);
       } catch(err){
           console.log(err);
       }

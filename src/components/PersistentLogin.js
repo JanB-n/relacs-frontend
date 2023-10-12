@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import Login from "./Login";
+import NavbarMenu from "./Navbar"
 
 const PersistentLogin = ({children}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,8 @@ const PersistentLogin = ({children}) => {
         {!persist ?
             children :
                 isLoading
-                    ? <p>Loading...</p>
+                    // ? <p>Loading...</p>
+                    ? <NavbarMenu/>
                     : children
         }
             
