@@ -20,7 +20,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        //emailRef.current.focus()
+        emailRef.current.focus()
     }, [])
 
     useEffect(() => {
@@ -61,38 +61,21 @@ const Login = () => {
     }
 
   return (
-        // <section class="authentication">
-        //     <form onSubmit={handleSubmit}>  
-        //         <label htmlFor="InputEmail">Username:</label>
-        //         <input type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" ref={emailRef} autoComplete='off' onChange={(e) => setEmail(e.target.value)} value={email} required/>
-      
-        //         <label htmlFor="InputPassword">Password:</label>
-        //         <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" ref={emailRef} autoComplete='off' onChange={(e) => setPassword(e.target.value)} value={password} required/>
-
-        //         <button type="submit" className="btn btn-primary">Submit</button>
-        //     </form>
-        //     <div className="text-center">
-        //         <p>Not a member? <a href="/register">Register</a></p>
-                
-        //     </div>
-
-        // </section>
-
-        <section class="authentication">
+        <section className="authentication">
             <Form onSubmit={handleSubmit}>  
                 <Form.Group>
                     <Form.Label htmlFor="InputEmail">Username:</Form.Label>
-                    <Form.Control type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username" ref={emailRef} autoComplete='off' onChange={(e) => setEmail(e.target.value)} value={email} required/>
+                    <Form.Control type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  ref={emailRef} autoComplete='off' onChange={(e) => setEmail(e.target.value)} value={email} required/>
                 </Form.Group>
-                <Form.Group style={{ 'margin-top': '10px'}}>
+                <Form.Group style={{ 'marginTop': '10px'}}>
                     <Form.Label htmlFor="InputPassword">Password:</Form.Label>
-                    <Form.Control type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" ref={emailRef} autoComplete='off' onChange={(e) => setPassword(e.target.value)} value={password} required/>
+                    <Form.Control type="password" className="form-control" id="exampleInputPassword1"  autoComplete='off' onChange={(e) => setPassword(e.target.value)} value={password} required/>
                 </Form.Group>
-                <Form.Group style={{ 'margin-top': '10px', 'align-items': 'center', 'display': 'flex', 'justify-content': 'center'}}>
-                    <Button style={{'margin-top': '10px'}} type="submit" className="btn btn-primary">Log in</Button>
+                <Form.Group style={{ 'marginTop': '10px', 'alignItems': 'center', 'display': 'flex', 'justifyContent': 'center'}}>
+                    <Button style={{'marginTop': '10px'}} type="submit" className="btn btn-primary">Log in</Button>
                 </Form.Group>
 
-                <Form.Group className="text-center" style={{ 'margin-top': '10px'}}>
+                <Form.Group className="text-center" style={{ 'marginTop': '10px'}}>
                     <p>Not a member? <a href="/register">Register</a></p>    
                 </Form.Group>
             </Form>
