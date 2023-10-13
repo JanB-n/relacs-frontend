@@ -21,11 +21,10 @@ function NavbarMenu() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            {/* <Nav.Link href="/">Home</Nav.Link> */}
             <Nav.Link href="/Compounds">Compounds</Nav.Link>
-            {/* <Nav.Link href="/charts">Charts</Nav.Link> */}
-            {/* <NewCompound /> */}
-            <Nav.Link href="/login" onClick={signOut}>Logout</Nav.Link>
+          </Nav>
+          <Nav className="ml-auto">
+            <Nav.Link onClick={signOut}>Logout</Nav.Link>
           </Nav>
           {/* <Nav>
             <Nav.Link href="#deets">More deets</Nav.Link>
