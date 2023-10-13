@@ -20,7 +20,7 @@ export default function Measurements({id}) {
        //return  (<a href="${params.getValue('id')}">${params.getValue("id")}</a>);
        return  (
         <>
-        <Link to={`/compounds/` + id +'/' + params.id?.replaceAll(':', '__').replaceAll('.', '-')}>
+        <Link to={`/compounds/` + id +'/' + params.id?.replaceAll(':', '__').replaceAll('.', '--')}>
             <Button>{params.id}</Button>
         </Link>
         </>
