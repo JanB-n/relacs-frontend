@@ -15,11 +15,12 @@ export default function AddMeasurements({id}) {
     const [measurements, setMeasurements] = useState({});
     const [probeMass, setProbeMass] = useState({});
     const [file, setFile] = useState({});
+    const [processingData, setProcessingData] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     
-
+    
     const handleFileChange = (e) => {
         e.preventDefault();
         if (e.target.files) {
@@ -44,10 +45,9 @@ export default function AddMeasurements({id}) {
     };
 
     const addMeasurements = (e) => {
+        e.preventDefault();
         try{
-            console.clear();
-            console.log(id);
-            console.log("przed wyslaniem", axiosPrivate.name);
+            setProcessingData(true);
             const response = axiosPrivate.post(Compound_URL, JSON.stringify({measurements: measurements, comp_id: id, probe_mass: probeMass, file_name: file?.name}), 
             {
                 headers: { 'Content-Type' : 'application/json' }
@@ -55,9 +55,12 @@ export default function AddMeasurements({id}) {
                 //withCredentials: true
             } ).then(res => {
                 console.log("resresres", res);
+                setProcessingData(false);
+                window.location.reload();
             })
             console.log("response", response);
       } catch(err){
+        setProcessingData(false);
           console.log(err);
       }
       }
@@ -83,6 +86,9 @@ export default function AddMeasurements({id}) {
                         {/* <div>{file && `${file.name} - ${file.type}`}</div> */}
                         {/* <div>{file && `${file.name}`}</div> */}
                         <br/>
+                        {processingData ? 
+                        <p className={processingData ? "errmsg" : "offscreen"}>Processing data...</p> : <></>
+                        }
                         <Button variant="primary" type="submit" onClick={addMeasurements}>
                             Upload
                         </Button>
