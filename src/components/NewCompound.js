@@ -21,7 +21,7 @@ function NewCompound() {
   const handleShow = () => setShow(true);
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     try{
         //const response = await axios.post(NewCompound_URL, JSON.stringify({name: compoundName, molar_mass: molarMass}),
@@ -30,7 +30,9 @@ function NewCompound() {
             headers: { 'Content-Type' : 'application/json'},
             //withCredentials: true
         }
-        );
+        ).then(res => {
+          window.location.reload();
+        });
         console.log(JSON.stringify(response?.data));
         
         
