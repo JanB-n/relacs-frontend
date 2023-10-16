@@ -6,6 +6,9 @@ import axios from '../api/axios';
 import { Button, Form } from 'react-bootstrap';
 import { red } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
+import HelpIcon from '@mui/icons-material/Help';
+import Tooltip from '@mui/material/Tooltip';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 //const USER_REGEX = /^[a-zA-Z][a-zA-Z]{1,29}$/;
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{1,29}$/;
@@ -104,10 +107,12 @@ const Register = () => {
     <Form onSubmit={handleSubmit}>  
         <Form.Group>
             <Form.Label htmlFor="InputUsername">Username:</Form.Label>
+            <Tooltip  style={{'marginLeft': '2px', 'marginBottom': '1px'}} title="2-30 characters"><HelpOutlineIcon fontSize='small'/></Tooltip>
             <Form.Control type="text" className="form-control" id="exampleInputUsername1"  ref={userRef}  autoComplete='off' onChange={(e) => setUsername(e.target.value)} value={username} required/>
         </Form.Group>
         <Form.Group style={{ 'marginTop': '10px'}}>
             <Form.Label htmlFor="InputPassword">Password:</Form.Label>
+            <Tooltip style={{'marginLeft': '2px', 'marginBottom': '1px'}} title="8-24 characters, must include uppercase and lowercase letter, a number and a special character"><HelpOutlineIcon fontSize='small'/></Tooltip>
             <Form.Control type="password" className="form-control" id="exampleInputPassword1" autoComplete='off' onChange={(e) => setPassword(e.target.value)} value={password} required/>
         </Form.Group>
         <Form.Group style={{ 'marginTop': '10px'}}>
