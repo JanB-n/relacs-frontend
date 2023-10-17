@@ -54,11 +54,9 @@ export default function AddMeasurements({id}) {
                 
                 //withCredentials: true
             } ).then(res => {
-                console.log("resresres", res);
                 setProcessingData(false);
                 window.location.reload();
             })
-            console.log("response", response);
       } catch(err){
         setProcessingData(false);
           console.log(err);

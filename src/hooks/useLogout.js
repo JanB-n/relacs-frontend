@@ -21,7 +21,6 @@ const useLogout = () => {
                 
             );
             localStorage.removeItem("refresh");
-            console.log(respose?.data)
         }
         catch (err) {
             console.error(err);

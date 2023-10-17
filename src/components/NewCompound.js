@@ -33,7 +33,7 @@ function NewCompound() {
         ).then(res => {
           window.location.reload();
         });
-        console.log(JSON.stringify(response?.data));
+        
         
         
     } catch(err){
