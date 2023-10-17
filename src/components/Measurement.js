@@ -389,26 +389,27 @@ export default function Measurement() {
           </div>
         </div>
       </div>
-      <Box sx={{ height: 400, width: '78%', marginLeft: '3%', marginTop: 2 }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
+      <div style={{display: 'flex' }}>
+        <Box sx={{ height: 400, width: '78%', marginLeft: '5%', marginTop: 2, float: 'left' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
 
-          initialState={{
-            pagination: {
-              // paginationModel: {
-              //   pageSize: 10,
-              // },
-            },
-          }}
-          pageSizeOptions={[10]}
-          checkboxSelection={false}
-          disableRowSelectionOnClick
-        />
-      </Box>
+            initialState={{
+              pagination: {
+                // paginationModel: {
+                //   pageSize: 10,
+                // },
+              },
+            }}
+            pageSizeOptions={[10]}
+            checkboxSelection={false}
+            disableRowSelectionOnClick
+          />
+        </Box>
 
-      {/* <Button onClick={deleteMeasurements}>Delete selected points</Button> */}
-
+        <Button style={{marginLeft: '2%', marginTop: '1%', float: 'left', height: '40px'}} onClick={deleteMeasurements}>Delete selected points</Button>
+      </div>
     </>
   );
 }

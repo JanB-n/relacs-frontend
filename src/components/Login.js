@@ -37,13 +37,11 @@ const Login = () => {
                 //withCredentials: true
             }
             );
-            console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.access;
             const refresh = response?.data?.refresh;
             //const first_name = response?.data?.first_name;
             //const last_name = response?.data?.last_name;
             localStorage.setItem("refresh", JSON.stringify(refresh));
-            //console.log("This is in local storage:" + localStorage.getItem("refresh"));
             setAuth({username: email, token: accessToken, refresh: refresh});
             setEmail('');
             setPassword('');
