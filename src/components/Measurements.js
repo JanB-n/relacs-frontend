@@ -85,10 +85,10 @@ export default function Measurements({ id, compoundName = '   ' }) {
           <AddMeasurements id={id} />
         </div>
         <div className="column" style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-          <Button onClick={handleDelete}> Delete selected measurement groups </Button>
+          <Button style={{backgroundColor: '#663300', borderColor: '#663300'}} onClick={handleDelete}> Delete selected measurement groups </Button>
         </div>
         <div className="column" style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-          <Button onClick={getMeasurements}> Refresh </Button>
+          <Button style={{backgroundColor: '#663300', borderColor: '#663300'}} onClick={getMeasurements}> Refresh </Button>
         </div>
       </div>
       <div style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
