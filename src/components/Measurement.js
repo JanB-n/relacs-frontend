@@ -4,10 +4,12 @@ import Modal from 'react-bootstrap/Modal';
 import { useParams } from 'react-router';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { DataGrid } from '@mui/x-data-grid';
+import {createTheme, ThemeProvider} from '@mui/material'
 import { Box } from '@mui/material';
 import DataFrame, { Row } from 'dataframe-js';
 import { ResponsiveScatterPlot } from '@nivo/scatterplot'
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { darken, lighten, styled } from '@mui/material/styles';
 import Latex from 'react-latex';
 
 
@@ -20,9 +22,11 @@ export default function Measurement() {
   const [dataChiPrime, setDataChiPrime] = useState([{ id: 1, data: [{}] }]);
   const [dataChiBis, setDataChiBis] = useState([]);
   const [dataColeCole, setDataColeCole] = useState([]);
+  const [muiTheme, setMuiTheme] = useState([]);
   const [measurement, setMeasurement] = useState();
   const { c_id, m_id } = useParams();
   const { axiosPrivate } = useAxiosPrivate();
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const columns = [
     { field: "temperature", headerName: "Temperature", width: 120, editable: false },
@@ -100,6 +104,21 @@ export default function Measurement() {
       }
     }
     return -1;
+  }
+
+  const setSelectedPointsIds = (e) => {
+    const ChiPrime = [...dataChiPrime];
+    const dataToDitch = ChiPrime[1]['data'];
+    var newDf = JSON.parse(measurement.df);
+    var selectedIndexes = []
+    for (var dmeas of dataToDitch) {
+      for (const [key, value] of Object.entries(newDf['Frequency'])) {
+        if (dmeas['x'] == newDf['FrequencyLog'][key]) {
+          selectedIndexes.push(parseInt(key));
+        }
+      }
+    }
+    setSelectedIds(selectedIndexes);
   }
 
   const deleteMeasurements = (e) => {
@@ -207,6 +226,9 @@ export default function Measurement() {
     setDataChiPrime(newChiPrime);
     setDataChiBis(newChiBis);
     setDataColeCole(newColeCole);
+
+    setSelectedPointsIds();
+    createTheme();
   }
   useEffect(() => {
     getMeasurement();
@@ -217,12 +239,22 @@ export default function Measurement() {
   }, [dataChiPrime])
   const test = "$\chi^{\prime \prime}$";
 
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    '& .super-app-theme--PartiallyFilled': {
+      backgroundColor: '#FF8C00'
+      ,
+      '&:hover': {
+        backgroundColor: '#E68301',
+      }
+    }
+  }));
+
   return (
     <>
       <section style={{ 'marginTop': '10px', 'alignItems': 'center', 'display': 'flex', 'justifyContent': 'center' }}>
         <h1 style={{ 'marginTop': '10px' }}> {measurement?.name} </h1>
       </section>
-
+      
       <div className="row">
         <div className="column">
           <div style={{ 'alignItems': 'center', 'display': 'flex', 'justifyContent': 'center', marginLeft: '15%' }}>
@@ -390,10 +422,22 @@ export default function Measurement() {
         </div>
       </div>
       <div style={{display: 'flex' }}>
+        {/* <ThemeProvider theme={muiTheme}> */}
         <Box sx={{ height: 400, width: '78%', marginLeft: '5%', marginTop: 2, float: 'left' }}>
-          <DataGrid
+          <StyledDataGrid
             rows={rows}
             columns={columns}
+            getRowClassName={(params) => {
+              const ids = selectedIds;
+              console.log(params);
+              console.log(ids, params.row.id);
+
+              if(ids.includes(parseInt(params.id))){
+                return `super-app-theme--PartiallyFilled`
+              }
+              else
+                return ``
+            }}
 
             initialState={{
               pagination: {
@@ -402,12 +446,13 @@ export default function Measurement() {
                 // },
               },
             }}
-            pageSizeOptions={[10]}
+            pageSizeOptions={{}}
+            rowsPerPageOptions={[]}
             checkboxSelection={false}
             disableRowSelectionOnClick
           />
         </Box>
-
+        {/* </ThemeProvider> */}
         <Button style={{marginLeft: '2%', marginTop: '1%', float: 'left', height: '40px'}} onClick={deleteMeasurements}>Delete selected points</Button>
       </div>
     </>

@@ -33,3 +33,13 @@
   display: table;
   clear: both;
 }
+
+.selectedRow {
+  background-color: red;
+}
+.selectedRow:hover {
+  background-color: red;
+}
+.unselectedRow {
+  background-color: white;
+}
