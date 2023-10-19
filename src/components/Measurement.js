@@ -60,6 +60,16 @@ export default function Measurement() {
             }
             new_rows.push(r);
           }
+          new_rows.sort((a, b) => {
+            if(a.frequencylog < b.frequencylog){
+              return -1;
+            }
+            if(a.frequencylog > b.frequencylog){
+              return 1;
+            }
+            return 0;
+
+          });
           setRows(new_rows);
           Charts(df_json);
         }
