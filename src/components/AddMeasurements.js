@@ -67,7 +67,7 @@ export default function AddMeasurements({id}) {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            <Button style={{backgroundColor: '#663300', borderColor: '#663300'}} variant="primary" onClick={handleShow}>
                 Upload measurements
             </Button>
             <Modal show={show} onHide={handleClose}>

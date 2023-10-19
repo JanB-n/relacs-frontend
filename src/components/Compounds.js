@@ -4,13 +4,15 @@ import Compound from './Compound';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
 import NewCompound from './NewCompound';
+import {useNavigate} from 'react-router-dom';
 
 const Compounds_URL = "/compounds/"
 
 export default function Compounds() {
 
+  const navigate = useNavigate();
   const { axiosPrivate } = useAxiosPrivate();
   const [compounds, setCompounds] = useState([]);
   const [rows, setRows] = useState([]);
@@ -18,19 +20,25 @@ export default function Compounds() {
   const [compoundsJson, setCompoundsJson] = useState({});
 
   const columns = [
+    { 
+      ...GRID_CHECKBOX_SELECTION_COL_DEF,
+      headerClassName: 'headerRowCheck',
+      
+    },
     {
       field: "name",
-      headerName: "Name",
-      width: 500,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/compounds/` + params.id}>
-              <Button>{params.value}</Button>
-            </Link>
-          </>
-        );
-      }
+      headerName: "Compound name",
+      headerClassName: 'headerRow',
+      flex: 1,
+      // renderCell: (params) => {
+      //   return (
+      //     <>
+      //       <Link to={`/compounds/` + params.id}>
+      //         <Button>{params.value}</Button>
+      //       </Link>
+      //     </>
+      //   );
+      // }
     },
   ];
 
@@ -80,6 +88,10 @@ export default function Compounds() {
 
   }
 
+  const handleRowClick = (params) => {
+    navigate(`/compounds/` + params.id);
+  }
+
   const handleDelete = (e) => {
     try {
       for (var id of selectedRows) {
@@ -117,6 +129,11 @@ export default function Compounds() {
       <div style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
         <Box sx={{ height: 700, width: '100%', marginTop: '10px'}}>
           <DataGrid
+            sx={{'& .MuiDataGrid-columnHeaderTitleContainerContent': {overflow: 'initial'}, 
+                '& .MuiDataGrid-columnHeaderTitle': {'fontWeight': 'bold'},
+                '& .MuiDataGrid-row:hover': {
+                  cursor: 'pointer'
+                }}}
             rows={rows}
             columns={columns}
             initialState={{
@@ -130,6 +147,7 @@ export default function Compounds() {
             checkboxSelection
             disableRowSelectionOnClick
             onRowSelectionModelChange={handleChecked}
+            onRowClick={handleRowClick}
           />
         </Box>
       </div>

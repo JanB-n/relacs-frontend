@@ -33,3 +33,26 @@
   display: table;
   clear: both;
 }
+
+.selectedRow {
+  background-color: red;
+}
+.selectedRow:hover {
+  background-color: red;
+}
+.unselectedRow {
+  background-color: white;
+}
+
+.headerRow {
+  background-color: #EBEBEB;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
+.headerRowCheck{
+  background-color: #EBEBEB;
+  /* justify-content: center;
+  display: flex;
+  overflow:initial; */
+}
