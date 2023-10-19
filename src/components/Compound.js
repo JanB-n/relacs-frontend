@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { Button } from 'react-bootstrap';
 import { DataGrid } from '@mui/x-data-grid';
 import Measurements from './Measurements';
+import Measurement from './Measurement';
 
 
 
@@ -36,7 +37,10 @@ export default function Compound() {
 
   return (
     <>
-      <Measurements id={id}/>
+      {/* <div style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+        <h1>{compound.name}</h1>
+      </div> */}
+      <Measurements id={id} compoundName={compound.name}/>
     </>
   );
 }

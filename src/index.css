@@ -43,3 +43,16 @@
 .unselectedRow {
   background-color: white;
 }
+
+.headerRow {
+  background-color: #EBEBEB;
+  font-size: 18px;
+  font-weight: bolder;
+}
+
+.headerRowCheck{
+  background-color: #EBEBEB;
+  /* justify-content: center;
+  display: flex;
+  overflow:initial; */
+}

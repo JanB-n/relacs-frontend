@@ -4,38 +4,39 @@ import { useParams } from 'react-router';
 import { Button } from 'react-bootstrap';
 import Dataframe from "dataframe-js"
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import AddMeasurements from './AddMeasurements';
+import {useNavigate} from 'react-router-dom';
 
 const MEASUREMENTS_URL = "/measurements/"
 const MEASUREMENT_URL = "/measurement/"
 
-export default function Measurements({ id }) {
+export default function Measurements({ id, compoundName = '   ' }) {
 
   const columns = [
+    { 
+      ...GRID_CHECKBOX_SELECTION_COL_DEF,
+      headerClassName: 'headerRowCheck',
+      
+    },
     {
       field: "id",
-      headerName: "Name",
-      width: 500,
-      renderCell: (params) => {
-        //return  (<a href="${params.getValue('id')}">${params.getValue("id")}</a>);
-        return (
-          <>
-            <Link to={`/compounds/` + id + '/' + params.id?.replaceAll(':', '__').replaceAll('.', '--')}>
-              <Button>{params.id}</Button>
-            </Link>
-          </>
-        );
-      }
+      headerName: "Clustered measurements (" + compoundName + ")",
+      headerClassName: 'headerRow',
+      flex: 1,
     },
   ];
+  const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [rows, setRows] = useState([]);
   const [df, setDf] = useState()
   const { axiosPrivate } = useAxiosPrivate();
   const [measurements, setMeasurements] = useState();
 
+  const handleRowClick = (params) => {
+    navigate(`/compounds/` + id + '/' + params.id?.replaceAll(':', '__').replaceAll('.', '--'));
+  }
 
   const handleDelete = (e) => {
     try {
@@ -67,6 +68,7 @@ export default function Measurements({ id }) {
     }
   }
 
+
   useEffect(() => {
     getMeasurements();
   }, [])
@@ -92,6 +94,11 @@ export default function Measurements({ id }) {
       <div style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
         <Box sx={{ height: 700, width: '100%', marginTop: '10px' }}>
           <DataGrid
+            sx={{'& .MuiDataGrid-columnHeaderTitleContainerContent': {overflow: 'initial'}, 
+            '& .MuiDataGrid-columnHeaderTitle': {'fontWeight': 'bold'},
+            '& .MuiDataGrid-row:hover': {
+              cursor: 'pointer'
+            }}}
             rows={rows}
             columns={columns}
             initialState={{
@@ -105,6 +112,7 @@ export default function Measurements({ id }) {
             checkboxSelection
             disableRowSelectionOnClick
             onRowSelectionModelChange={handleChecked}
+            onRowClick={handleRowClick}
           />
         </Box>
       </div>

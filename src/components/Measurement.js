@@ -439,15 +439,15 @@ export default function Measurement() {
                 return ``
             }}
 
-            initialState={{
-              pagination: {
-                // paginationModel: {
-                //   pageSize: 10,
-                // },
-              },
-            }}
-            pageSizeOptions={{}}
-            rowsPerPageOptions={[]}
+            // initialState={{
+            //   pagination: { 
+            //     // paginationModel: {
+            //     //   pageSize: 10,
+            //     // },
+            //   },
+            // }}
+            // pageSizeOptions={[]}
+            // rowsPerPageOptions={[]}
             checkboxSelection={false}
             disableRowSelectionOnClick
           />
