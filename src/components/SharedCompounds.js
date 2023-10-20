@@ -8,10 +8,9 @@ import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
 import NewCompound from './NewCompound';
 import {useNavigate} from 'react-router-dom';
 
-const Compounds_URL = "/compounds/";
 const SharedCompounds_URL = "/sharedcompounds/";
 
-export default function Compounds() {
+export default function SharedCompounds() {
 
   const navigate = useNavigate();
   const { axiosPrivate } = useAxiosPrivate();
@@ -32,7 +31,7 @@ export default function Compounds() {
       field: "name",
       headerName: "Compound name",
       headerClassName: 'headerRow',
-      flex: 1,
+      width: 300
       // renderCell: (params) => {
       //   return (
       //     <>
@@ -43,17 +42,23 @@ export default function Compounds() {
       //   );
       // }
     },
+    {
+      field: "username",
+      headerName: "Author",
+      headerClassName: 'headerRow',
+      flex: 1,
+    },
   ];
 
   const getData = (e) => {
     try {
-      const response = axiosPrivate.get(Compounds_URL).then(res => {
+      const response = axiosPrivate.get(SharedCompounds_URL).then(res => {
         var data = res.data;
         setCompounds(data);
         var new_rows = [];
         var shared = [];
         for (var compound of data) {
-          new_rows.push({ id: compound['_id']['$oid'], name: compound.name });
+          new_rows.push({ id: compound['_id']['$oid'], name: compound.name, username: compound.owner_username });
           if(compound?.shared == 1){
             shared.push(compound['_id']['$oid']);
           }
@@ -99,24 +104,12 @@ export default function Compounds() {
     navigate(`/compounds/` + params.id);
   }
 
-  const handleDelete = (e) => {
-    try {
-      for (var id of selectedRows) {
-        const response = axiosPrivate.delete(Compounds_URL, { params: { id: id } }).then(res => {
-          getData();
-        });
-      }
 
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  const shareCompounds = () => {
+  const importSelected = () => {
     try {
       for (var id of selectedRows) {
         
-        const response = axiosPrivate.put(SharedCompounds_URL, { id: id } ).then(res => {
+        const response = axiosPrivate.post(SharedCompounds_URL, { id: id } ).then(res => {
           getData();
         });
       }
@@ -128,14 +121,12 @@ export default function Compounds() {
 
   return (
     <>
-      <div className="row">
-        <div className="column" style={{width: '25%', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-          <NewCompound />
-        </div>
-        <div className="column" style={{width: '25%', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-          <Button onClick={shareCompounds}>Share/Unshare selected compounds</Button>
-        </div>
-        <div className="column" style={{width: '25%', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+      <div >
+        {/* <div className="column" style={{width: "50%", alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+          
+        </div> */}
+        <div className="column" style={{width: "100%", alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
+          <Button style={{marginRight: '10%'}} onClick={importSelected}> Import selected compounds </Button>
           <Button
             href={`data:text/json;charset=utf-8,${encodeURIComponent(
               JSON.stringify(compoundsJson)
@@ -144,9 +135,6 @@ export default function Compounds() {
           >
             {`Download selected compounds as JSON`}
           </Button>
-        </div>
-        <div className="column" style={{width: '25%', alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
-          <Button onClick={handleDelete}>Delete selected compounds</Button>
         </div>
       </div>
       <div style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
@@ -167,12 +155,12 @@ export default function Compounds() {
               },
             }}
             getRowClassName={(params) => {
-              const ids = sharedCompounds;
-              if(ids.includes(params.id)){
+              // const ids = sharedCompounds;
+              // if(ids.includes(params.id)){
                 return `compoundsShared`
-              }
-              else
-                return ``
+              // }
+              // else
+              //   return ``
             }}
             localeText={{ noRowsLabel: "" }}
             pageSizeOptions={[10]}

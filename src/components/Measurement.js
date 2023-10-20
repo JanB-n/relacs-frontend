@@ -134,6 +134,7 @@ export default function Measurement() {
   const deleteMeasurements = (e) => {
     var newChiPrime = [...dataChiPrime];
     const dataToDitch = newChiPrime[1]['data'];
+    const DF = JSON.parse(measurement.df);
     var newDf = JSON.parse(measurement.df);
     var indexesToRemove = []
     for (var dmeas of dataToDitch) {
@@ -157,9 +158,14 @@ export default function Measurement() {
       delete newDf['FrequencyLog'][index];
       delete newDf['Hidden'][index];
     }
+    
+    if(Object.keys(DF['Temperature']).length === Object.keys(newDf['Temperature']).length){
+      return;
+    }
     newDf = JSON.stringify(newDf);
+    
     try {
-      const response = axiosPrivate.put(MEASUREMENT_URL, { c_id: c_id, m_id: measurement?.name, newDf: newDf },
+      const response = axiosPrivate.put(MEASUREMENT_URL, { c_id: c_id, m_id: measurement?.name, newDf: newDf, edited: true },
         {
           headers: { 'Content-Type': 'application/json' }
 
@@ -439,9 +445,6 @@ export default function Measurement() {
             columns={columns}
             getRowClassName={(params) => {
               const ids = selectedIds;
-              console.log(params);
-              console.log(ids, params.row.id);
-
               if(ids.includes(parseInt(params.id))){
                 return `super-app-theme--PartiallyFilled`
               }
@@ -458,6 +461,7 @@ export default function Measurement() {
             // }}
             // pageSizeOptions={[]}
             // rowsPerPageOptions={[]}
+            localeText={{ noRowsLabel: "" }}
             checkboxSelection={false}
             disableRowSelectionOnClick
           />

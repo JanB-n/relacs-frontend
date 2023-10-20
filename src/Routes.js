@@ -12,6 +12,7 @@ import PersistentLogin from './components/PersistentLogin';
 import Compounds from './components/Compounds';
 import Compound from './components/Compound';
 import Measurement from './components/Measurement.js';
+import SharedCompounds from './components/SharedCompounds';
 
 
 export default function AllRoutes() {
@@ -27,9 +28,11 @@ export default function AllRoutes() {
                 <Route path="/" element={<Home />} />
                 <Route path="/charts" element={<Charts />} />
                 <Route path="/compounds" element={<Compounds />} />
+                <Route path="/sharedcompounds" element={<SharedCompounds />} />
                 <Route path=":id/Measurements" element={<Charts  />} />
                 <Route path="/compounds/:id" element={<Compound />} />
                 <Route path="/compounds/:c_id/:m_id" element={<Measurement />} />
+                
               {/* </Route> */}
             </Route>
           

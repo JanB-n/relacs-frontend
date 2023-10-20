@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import useLogout from '../hooks/useLogout';
 import { useNavigate } from 'react-router-dom';
 import NewCompound from './NewCompound';
+import SharedCompounds from './SharedCompounds';
 
 function NavbarMenu() {
 
@@ -20,8 +21,9 @@ function NavbarMenu() {
         <Navbar.Brand href="/">relACs Web</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/Compounds">Compounds</Nav.Link>
+          <Nav className="me-auto" style={{paddingRight: '60px'}}>
+            <Nav.Link style={{marginLeft: '20px'}} href="/Compounds">Compounds</Nav.Link>
+            <Nav.Link style={{marginLeft: '20px'}} href="/SharedCompounds">Shared Compounds</Nav.Link>
           </Nav>
           <Nav className="ml-auto">
             <Nav.Link onClick={signOut}>Logout</Nav.Link>

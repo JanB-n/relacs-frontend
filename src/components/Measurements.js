@@ -21,7 +21,7 @@ export default function Measurements({ id, compoundName = '   ' }) {
       
     },
     {
-      field: "id",
+      field: "name",
       headerName: "Clustered measurements (" + compoundName + ")",
       headerClassName: 'headerRow',
       flex: 1,
@@ -33,9 +33,10 @@ export default function Measurements({ id, compoundName = '   ' }) {
   const [df, setDf] = useState()
   const { axiosPrivate } = useAxiosPrivate();
   const [measurements, setMeasurements] = useState();
+  const [editedMeasurements, setEditedMeasurements] = useState();
 
   const handleRowClick = (params) => {
-    navigate(`/compounds/` + id + '/' + params.id?.replaceAll(':', '__').replaceAll('.', '--'));
+    navigate(`/compounds/` + id + '/' + params.row.name?.replaceAll(':', '__').replaceAll('.', '--'));
   }
 
   const handleDelete = (e) => {
@@ -57,9 +58,17 @@ export default function Measurements({ id, compoundName = '   ' }) {
 
         setMeasurements(res.data);
         var names = []
+        var i = 1;
+        var edited = []
         for (var measurement of res.data) {
-          names.push({ id: measurement.name });
+          names.push({ id: i, name: measurement.name });
+          if(measurement?.edited == true){
+            edited.push(i);
+          }
+          i += 1;
         }
+        console.log(edited);
+        setEditedMeasurements(edited);
         setRows(names);
       });
 
@@ -107,6 +116,15 @@ export default function Measurements({ id, compoundName = '   ' }) {
                   pageSize: 10,
                 },
               },
+            }}
+            localeText={{ noRowsLabel: "" }}
+            getRowClassName={(params) => {
+              const ids = editedMeasurements;
+              if(ids.includes(parseInt(params.id))){
+                return `measurementsEdited`
+              }
+              else
+                return ``
             }}
             pageSizeOptions={[10]}
             checkboxSelection

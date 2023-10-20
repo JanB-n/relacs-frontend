@@ -56,3 +56,11 @@
   display: flex;
   overflow:initial; */
 }
+
+.measurementsEdited {
+  color: #B96900;
+}
+
+.compoundsShared {
+  color: #0066CC;
+}
