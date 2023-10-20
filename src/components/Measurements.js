@@ -34,6 +34,7 @@ export default function Measurements({ id, compoundName = '   ' }) {
   const { axiosPrivate } = useAxiosPrivate();
   const [measurements, setMeasurements] = useState();
   const [editedMeasurements, setEditedMeasurements] = useState();
+  const [currentUser, setCurrentUser] = useState();
 
   const handleRowClick = (params) => {
     navigate(`/compounds/` + id + '/' + params.row.name?.replaceAll(':', '__').replaceAll('.', '--'));
@@ -56,11 +57,12 @@ export default function Measurements({ id, compoundName = '   ' }) {
     try {
       const response = axiosPrivate.get(MEASUREMENTS_URL, { params: { id: id } }).then(res => {
 
-        setMeasurements(res.data);
+        setMeasurements(res.data.measurements);
+        setCurrentUser(res.data.currentUser);
         var names = []
         var i = 1;
         var edited = []
-        for (var measurement of res.data) {
+        for (var measurement of res.data.measurements) {
           names.push({ id: i, name: measurement.name });
           if(measurement?.edited == true){
             edited.push(i);

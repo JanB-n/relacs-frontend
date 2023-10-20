@@ -2,7 +2,6 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import Home from './features/Home/Home'
-import Charts from './features/Charts/Charts'
 import Login from './components/Login'
 import Register from './components/Register'
 import Missing from './features/Redirections/Missing';
@@ -26,10 +25,8 @@ export default function AllRoutes() {
             <Route element={<RequireAuth />}>
               {/* <Route element={<MainLayout />}>  */}
                 <Route path="/" element={<Home />} />
-                <Route path="/charts" element={<Charts />} />
                 <Route path="/compounds" element={<Compounds />} />
                 <Route path="/sharedcompounds" element={<SharedCompounds />} />
-                <Route path=":id/Measurements" element={<Charts  />} />
                 <Route path="/compounds/:id" element={<Compound />} />
                 <Route path="/compounds/:c_id/:m_id" element={<Measurement />} />
                 
