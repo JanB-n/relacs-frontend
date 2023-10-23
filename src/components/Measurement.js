@@ -27,6 +27,7 @@ export default function Measurement() {
   const { c_id, m_id } = useParams();
   const { axiosPrivate } = useAxiosPrivate();
   const [selectedIds, setSelectedIds] = useState([]);
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
 
   const columns = [
     { field: "temperature", headerName: "Temperature", width: 120, editable: false },
@@ -46,8 +47,10 @@ export default function Measurement() {
   const getMeasurement = (e) => {
     try {
       const response = axiosPrivate.get(MEASUREMENT_URL, { params: { c_id: c_id, m_id: m_id } }).then(res => {
-        setMeasurement(res.data);
-        const df_json = JSON.parse(res.data.df);
+        setMeasurement(res.data.measurement);
+        setIsUserAdmin(res.data.isUserAdmin);
+        console.log(res.data.isUserAdmin);
+        const df_json = JSON.parse(res.data.measurement.df);
         if (Object.keys(df_json).length !== 0) {
           const m = df_json;
           var new_rows = []
@@ -467,7 +470,7 @@ export default function Measurement() {
           />
         </Box>
         {/* </ThemeProvider> */}
-        <Button style={{marginLeft: '2%', marginTop: '1%', float: 'left', height: '40px'}} onClick={deleteMeasurements}>Delete selected points</Button>
+        {isUserAdmin ? <Button style={{marginLeft: '2%', marginTop: '1%', float: 'left', height: '40px'}} onClick={deleteMeasurements}>Delete selected points</Button> : null}
       </div>
     </>
   );
