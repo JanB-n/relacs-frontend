@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import * as React from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Compound from './Compound';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Box from '@mui/material/Box';
-import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
+import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF, GridToolbar } from '@mui/x-data-grid';
 import NewCompound from './NewCompound';
 import {useNavigate} from 'react-router-dom';
 
@@ -21,7 +22,7 @@ export default function Compounds() {
   const [compoundsJson, setCompoundsJson] = useState({});
   const [sharedCompounds, setSharedCompounds] = useState([]);
 
-
+  const VISIBLE_FIELDS = ['name'];
   const columns = [
     { 
       ...GRID_CHECKBOX_SELECTION_COL_DEF,
@@ -160,6 +161,12 @@ export default function Compounds() {
             rows={rows}
             columns={columns}
             initialState={{
+              filter: {
+                filterModel: {
+                  items: [],
+                  quickFilterValues: [''],
+                },
+              },
               pagination: {
                 paginationModel: {
                   pageSize: 10,
@@ -180,6 +187,19 @@ export default function Compounds() {
             disableRowSelectionOnClick
             onRowSelectionModelChange={handleChecked}
             onRowClick={handleRowClick}
+
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+            toolbar: {
+              csvOptions: { disableToolbarButton: true },
+              printOptions: { disableToolbarButton: true },
+            showQuickFilter: true,
+            }
+          }}
           />
         </Box>
       </div>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import * as React from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useParams } from 'react-router';
 import { Button } from 'react-bootstrap';
 import Dataframe from "dataframe-js"
 import Box from '@mui/material/Box';
-import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF } from '@mui/x-data-grid';
+import { DataGrid, GRID_CHECKBOX_SELECTION_COL_DEF, GridToolbar } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import AddMeasurements from './AddMeasurements';
 import {useNavigate} from 'react-router-dom';
@@ -14,6 +15,7 @@ const MEASUREMENT_URL = "/measurement/"
 
 export default function Measurements({ id, compoundName = '   ' }) {
 
+  const VISIBLE_FIELDS = ['name'];
   const columns = [
     { 
       ...GRID_CHECKBOX_SELECTION_COL_DEF,
@@ -27,6 +29,11 @@ export default function Measurements({ id, compoundName = '   ' }) {
       flex: 1,
     },
   ];
+
+  // const newcolumns = React.useMemo(
+  //   () => columns.filter((column) => VISIBLE_FIELDS.includes(column.field)),
+  //   [columns],
+  // );
   const navigate = useNavigate();
   const [selectedRows, setSelectedRows] = useState([]);
   const [rows, setRows] = useState([]);
@@ -35,6 +42,7 @@ export default function Measurements({ id, compoundName = '   ' }) {
   const [measurements, setMeasurements] = useState();
   const [editedMeasurements, setEditedMeasurements] = useState();
   const [currentUser, setCurrentUser] = useState();
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
 
   const handleRowClick = (params) => {
     navigate(`/compounds/` + id + '/' + params.row.name?.replaceAll(':', '__').replaceAll('.', '--'));
@@ -42,10 +50,15 @@ export default function Measurements({ id, compoundName = '   ' }) {
 
   const handleDelete = (e) => {
     try {
-      for (var measurement_name of selectedRows) {
-        const response = axiosPrivate.delete(MEASUREMENT_URL, { params: { measurement_name: measurement_name, comp_id: id } }).then(res => {
-          getMeasurements();
-        });
+      for (var selected_id of selectedRows) {
+          for(var row of rows){
+            if(selected_id == row.id){
+              const response = axiosPrivate.delete(MEASUREMENT_URL, { params: { measurement_name: row.name, comp_id: id } }).then(res => {
+                getMeasurements();
+              });
+            }
+          }
+        
       }
 
     } catch (err) {
@@ -59,6 +72,7 @@ export default function Measurements({ id, compoundName = '   ' }) {
 
         setMeasurements(res.data.measurements);
         setCurrentUser(res.data.currentUser);
+        setIsUserAdmin(res.data.isUserAdmin);
         var names = []
         var i = 1;
         var edited = []
@@ -69,7 +83,6 @@ export default function Measurements({ id, compoundName = '   ' }) {
           }
           i += 1;
         }
-        console.log(edited);
         setEditedMeasurements(edited);
         setRows(names);
       });
@@ -91,7 +104,7 @@ export default function Measurements({ id, compoundName = '   ' }) {
 
   return (
     <>
-      <div className="row">
+      {isUserAdmin ? <div className="row">
         <div className="column" style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
           <AddMeasurements id={id} />
         </div>
@@ -101,7 +114,7 @@ export default function Measurements({ id, compoundName = '   ' }) {
         <div className="column" style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
           <Button style={{backgroundColor: '#663300', borderColor: '#663300'}} onClick={getMeasurements}> Refresh </Button>
         </div>
-      </div>
+      </div> : null}
       <div style={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}>
         <Box sx={{ height: 700, width: '100%', marginTop: '10px' }}>
           <DataGrid
@@ -113,6 +126,12 @@ export default function Measurements({ id, compoundName = '   ' }) {
             rows={rows}
             columns={columns}
             initialState={{
+                filter: {
+                  filterModel: {
+                    items: [],
+                    quickFilterValues: [''],
+                  },
+                },
               pagination: {
                 paginationModel: {
                   pageSize: 10,
@@ -133,6 +152,19 @@ export default function Measurements({ id, compoundName = '   ' }) {
             disableRowSelectionOnClick
             onRowSelectionModelChange={handleChecked}
             onRowClick={handleRowClick}
+
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+            toolbar: {
+              csvOptions: { disableToolbarButton: true },
+              printOptions: { disableToolbarButton: true },
+            showQuickFilter: true,
+            },
+        }}
           />
         </Box>
       </div>
